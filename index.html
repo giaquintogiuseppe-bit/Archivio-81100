@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0f1b2d">
+<title>Archivio 81|00</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f1b2d;--navy2:#16263d;--card:#1a2c44;--brd:#2a3f5c;--text:#e8eef7;--text2:#93a4bd;--teal:#00b4a6;--gold:#c9a227;--red:#e85454;--green:#3aa08c;--r:14px;--r2:9px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Syne',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--navy);color:var(--text);font-size:15px;line-height:1.5;-webkit-text-size-adjust:100%}
+.wrap{max-width:1000px;margin:0 auto;padding:16px 16px 90px}
+.top{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--brd);margin-bottom:16px}
+.top h1{font-size:20px;font-weight:800;letter-spacing:-.5px}
+.top .sub{font-size:12px;color:var(--text2)}
+.top .sp{flex:1}
+.btn{background:var(--teal);color:#04222b;border:none;border-radius:var(--r2);padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;min-height:44px}
+.btn:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.6;cursor:default}
+.bs{background:var(--card);color:var(--text);border:1px solid var(--brd);border-radius:var(--r2);padding:10px 14px;font-size:13px;cursor:pointer;font-family:inherit;min-height:44px}
+.bs:hover{border-color:var(--teal)}
+.bd{background:none;border:1px solid rgba(232,84,84,.4);color:var(--red);border-radius:var(--r2);padding:9px 12px;font-size:13px;cursor:pointer;font-family:inherit;min-height:44px}
+.card{background:var(--card);border:1px solid var(--brd);border-radius:var(--r);padding:16px;margin-bottom:14px}
+.card h2{font-size:15px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);font-weight:700;margin-bottom:5px;margin-top:10px}
+input,select,textarea{width:100%;background:var(--navy);border:1px solid var(--brd);border-radius:var(--r2);color:var(--text);font-family:inherit;font-size:16px;padding:11px 12px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--teal)}
+textarea{resize:vertical;min-height:60px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fg .full{grid-column:1/-1}
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tab{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:11px 16px;font-size:14px;cursor:pointer;min-height:44px;font-weight:600}
+.tab.on{background:var(--teal);color:#04222b;font-weight:800;border-color:var(--teal)}
+.muted{color:var(--text2);font-size:12px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--brd);border-left-width:4px;border-radius:var(--r2);padding:12px 10px;cursor:pointer;text-align:center}
+.kpi.on{outline:2px solid var(--teal)}
+.kpi .n{font-size:24px;font-weight:800;line-height:1}
+.kpi .l{font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:var(--text2);margin-top:5px;font-weight:700}
+.kpi.k-scaduto{border-left-color:var(--red)} .kpi.k-scaduto .n{color:var(--red)}
+.kpi.k-in_scadenza{border-left-color:var(--gold)} .kpi.k-in_scadenza .n{color:var(--gold)}
+.kpi.k-valido{border-left-color:var(--green)} .kpi.k-valido .n{color:var(--green)}
+.kpi.k-senza_scadenza{border-left-color:var(--text2)} .kpi.k-senza_scadenza .n{color:var(--text2)}
+.doc{background:var(--card);border:1px solid var(--brd);border-radius:var(--r2);padding:12px 14px;margin-bottom:8px;border-left:4px solid var(--brd)}
+.doc.b-scaduto{border-left-color:var(--red)}
+.doc.b-in_scadenza{border-left-color:var(--gold)}
+.doc.b-valido{border-left-color:var(--green)}
+.doc.b-senza_scadenza{border-left-color:var(--text2)}
+.doc .r1{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.doc .tit{font-weight:700;font-size:15px}
+.doc .r2{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:5px}
+.doc .ent{font-size:13px;color:var(--text2)}
+.doc .acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.doc .acts button{padding:8px 12px;font-size:12px;min-height:40px}
+.badge{display:inline-block;padding:3px 9px;border-radius:11px;font-size:11px;font-weight:800;white-space:nowrap}
+.badge.scaduto{background:rgba(232,84,84,.15);color:var(--red)}
+.badge.in_scadenza{background:rgba(201,162,39,.15);color:var(--gold)}
+.badge.valido{background:rgba(58,160,140,.18);color:var(--green)}
+.badge.senza_scadenza{background:rgba(147,164,189,.15);color:var(--text2)}
+.badge.sub{background:rgba(147,164,189,.12);color:var(--text2)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.filters select,.filters input{width:auto;flex:1;min-width:120px;font-size:14px}
+.empty{text-align:center;color:var(--text2);padding:34px 16px;font-size:14px}
+.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;background:var(--navy2);color:var(--text2)}
+.banner{background:var(--navy2);border:1px solid var(--teal);border-radius:var(--r2);padding:10px 12px;margin-bottom:12px;font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--teal);border-radius:var(--r2);padding:12px 20px;font-size:14px;z-index:99999;opacity:0;transition:.3s;box-shadow:0 8px 24px rgba(0,0,0,.4);max-width:90%;text-align:center}
+.toast.show{opacity:1}
+.toast.err{border-color:var(--red);color:var(--red)}
+@media(max-width:640px){.fg{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     81|00 — Modulo di LOGIN unico (identico alle altre app dell'ecosistema).
+     MODE = 'email'  ·  APP = nome mostrato nella schermata di login.
+     ═══════════════════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+  'use strict';
+  var MODE = 'email';
+  var APP  = 'Archivio 81|00';
+  var SB_URL  = 'https://xqbhujcnjvwbwzpwjujf.supabase.co';
+  var SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhxYmh1amNuanZ3Ynd6cHdqdWpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MzM4ODUsImV4cCI6MjA5NzMwOTg4NX0.VstO3aII143jpPXjgKg0t3du-yc5rS9xs2hYko_2DRs';
+  var PIN_EMAIL = 'giaquinto.giuseppe+campo@gmail.com';
+  var LSK = 'sb81_sess';
+  var RESET_URL = 'https://giaquintogiuseppe-bit.github.io/ottantunocento-gestionale/reset.html';
+  var _fetch = window.fetch.bind(window);
+  var STORE = (MODE === 'pin') ? window.sessionStorage : window.localStorage;
+
+  function getSess(){ try{ return JSON.parse(STORE.getItem(LSK)||'null'); }catch(e){ return null; } }
+  function setSess(s){ try{ s ? STORE.setItem(LSK, JSON.stringify(s)) : STORE.removeItem(LSK); }catch(e){} }
+  function valida(s){ return s && s.access_token && s.expires_at && (Date.now()/1000 < s.expires_at - 60); }
+  function salva(j){ setSess({ access_token:j.access_token, refresh_token:j.refresh_token,
+    expires_at: j.expires_at || (Math.floor(Date.now()/1000) + (j.expires_in||3600)) }); }
+
+  window.fetch = function(input, init){
+    try{
+      var url = (typeof input === 'string') ? input : (input && input.url) || '';
+      if(url.indexOf(SB_URL) === 0 && url.indexOf('/auth/v1/') < 0){
+        var s = getSess();
+        if(s && s.access_token){
+          var h = new Headers((init && init.headers) || (typeof input!=='string' && input.headers) || {});
+          h.set('apikey', SB_ANON);
+          h.set('Authorization', 'Bearer ' + s.access_token);
+          init = Object.assign({}, init, { headers: h });
+          if(typeof input !== 'string') input = input.url;
+        }
+      }
+    }catch(e){}
+    return _fetch(input, init);
+  };
+
+  function login(email, password){
+    return _fetch(SB_URL + '/auth/v1/token?grant_type=password', {
+      method:'POST', headers:{ 'Content-Type':'application/json', 'apikey':SB_ANON },
+      body: JSON.stringify({ email: email, password: password })
+    }).then(function(r){ return r.json().then(function(j){ return { ok:r.ok, j:j }; }); });
+  }
+  function refresh(rt){
+    return _fetch(SB_URL + '/auth/v1/token?grant_type=refresh_token', {
+      method:'POST', headers:{ 'Content-Type':'application/json', 'apikey':SB_ANON },
+      body: JSON.stringify({ refresh_token: rt })
+    }).then(function(r){ return r.json().then(function(j){ return { ok:r.ok, j:j }; }); });
+  }
+  function recover(email){
+    return _fetch(SB_URL + '/auth/v1/recover?redirect_to=' + encodeURIComponent(RESET_URL), {
+      method:'POST', headers:{ 'Content-Type':'application/json', 'apikey':SB_ANON },
+      body: JSON.stringify({ email: email })
+    }).then(function(r){ return { ok:r.ok }; });
+  }
+
+  function css(){
+    if(document.getElementById('l81-css')) return;
+    var st=document.createElement('style'); st.id='l81-css';
+    st.textContent = ''+
+    '#l81{position:fixed;inset:0;z-index:2147483000;background:linear-gradient(135deg,#152238,#1e3350);'+
+      'display:flex;align-items:center;justify-content:center;font-family:-apple-system,Segoe UI,Roboto,sans-serif;padding:20px}'+
+    '#l81 .box{background:#fff;border-radius:16px;padding:28px 24px;width:100%;max-width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4)}'+
+    '#l81 .ey{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#c69a3e;font-weight:700}'+
+    '#l81 h2{margin:6px 0 2px;color:#152238;font-size:20px}'+
+    '#l81 .sub{color:#5a6272;font-size:13px;margin-bottom:18px}'+
+    '#l81 input{width:100%;padding:13px;border:1px solid #dcd6c8;border-radius:9px;font-size:16px;margin-bottom:10px;text-align:center}'+
+    '#l81 input:focus{outline:2px solid #0e6b64;border-color:#0e6b64}'+
+    '#l81 button{width:100%;padding:13px;border:none;border-radius:9px;background:#0e6b64;color:#fff;font-size:16px;font-weight:700;cursor:pointer}'+
+    '#l81 button:active{background:#0b544f}'+
+    '#l81 .err{color:#a63b3b;font-size:13px;min-height:18px;margin-top:8px}';
+    document.head.appendChild(st);
+  }
+  function overlay(){
+    css();
+    var wrap=document.createElement('div'); wrap.id='l81';
+    var isPin = (MODE==='pin');
+    wrap.innerHTML =
+      '<div class="box">'+
+        '<div class="ey">Ottantunocento S.r.l.</div>'+
+        '<h2>'+APP+'</h2>'+
+        '<div class="sub">'+(isPin?'Inserisci il PIN per accedere':'Accedi con email e password')+'</div>'+
+        (isPin
+          ? '<input id="l81pin" class="pin" type="password" inputmode="numeric" autocomplete="off" placeholder="••••••" maxlength="12">'
+          : '<input id="l81em" type="email" placeholder="email" autocomplete="username">'+
+            '<input id="l81pw" type="password" placeholder="password" autocomplete="current-password">')+
+        '<button id="l81go">Entra</button>'+
+        '<div class="err" id="l81err"></div>'+
+        (isPin?'':'<div id="l81fg" style="margin-top:14px;font-size:13px"><a href="#" id="l81fga" style="color:#0e6b64;font-weight:600;text-decoration:underline">Password dimenticata?</a></div>')+
+      '</div>';
+    document.body.appendChild(wrap);
+    var go=document.getElementById('l81go'), err=document.getElementById('l81err');
+    function fail(m){ err.textContent = m || 'Accesso non riuscito'; go.disabled=false; go.textContent='Entra'; }
+    function attempt(){
+      err.textContent=''; go.disabled=true; go.textContent='Attendo…';
+      var email, pw;
+      if(isPin){ pw = (document.getElementById('l81pin').value||'').trim(); email = PIN_EMAIL;
+        if(!pw){ return fail('Inserisci il PIN'); } }
+      else { email=(document.getElementById('l81em').value||'').trim(); pw=document.getElementById('l81pw').value||'';
+        if(!email||!pw){ return fail('Inserisci email e password'); } }
+      login(email, pw).then(function(res){
+        if(res.ok && res.j.access_token){ salva(res.j); location.reload(); }
+        else { fail(isPin ? 'PIN errato' : (res.j.error_description || 'Email o password errati')); }
+      }).catch(function(){ fail('Errore di rete, riprova'); });
+    }
+    go.addEventListener('click', attempt);
+    var fga=document.getElementById('l81fga');
+    if(fga) fga.addEventListener('click', function(ev){
+      ev.preventDefault();
+      var em=(document.getElementById('l81em').value||'').trim();
+      if(!em){ err.textContent='Scrivi prima la tua email qui sopra, poi tocca "Password dimenticata?".'; return; }
+      var emSafe=em.replace(/[<>&]/g,''); err.textContent=''; fga.textContent='Invio…';
+      recover(em).then(function(){
+        document.querySelector('#l81 .box').innerHTML=
+          '<div class="ey">Ottantunocento S.r.l.</div>'+
+          '<h2>Controlla l\'email</h2>'+
+          '<div class="sub">Se <b>'+emSafe+'</b> è un account valido, ti abbiamo inviato un link per reimpostare la password. Aprila e segui il link (guarda anche nello spam).</div>'+
+          '<button onclick="location.reload()">Torna al login</button>';
+      }).catch(function(){ err.textContent='Invio non riuscito, riprova tra poco.'; fga.textContent='Password dimenticata?'; });
+    });
+    wrap.addEventListener('keydown', function(e){ if(e.key==='Enter') attempt(); });
+    var first=document.getElementById(isPin?'l81pin':'l81em'); if(first) first.focus();
+  }
+
+  function addLogout(){
+    function ins(){
+      if(document.getElementById('l81out')) return;
+      var b=document.createElement('button'); b.id='l81out'; b.type='button';
+      b.textContent='🔒 Esci';
+      b.setAttribute('style','position:fixed;bottom:12px;left:12px;z-index:2147482000;'+
+        'background:rgba(21,34,56,.85);color:#fff;border:none;border-radius:20px;'+
+        'padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;'+
+        'font-family:-apple-system,Segoe UI,Roboto,sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3)');
+      b.addEventListener('click', function(){
+        if(document.getElementById('l81cf')) return;
+        var m=document.createElement('div'); m.id='l81cf';
+        m.setAttribute('style','position:fixed;inset:0;z-index:2147483600;background:rgba(10,22,40,.6);display:flex;align-items:center;justify-content:center;font-family:-apple-system,Segoe UI,Roboto,sans-serif;padding:20px');
+        m.innerHTML='<div style="background:#fff;border-radius:14px;padding:22px;max-width:300px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4)">'+
+          '<div style="font-size:16px;font-weight:700;color:#152238;margin-bottom:6px">Uscire dall\'app?</div>'+
+          '<div style="font-size:13px;color:#5a6272;margin-bottom:16px">Dovrai reinserire email e password al prossimo accesso.</div>'+
+          '<button id="l81cfy" style="width:100%;padding:12px;border:none;border-radius:9px;background:#a63b3b;color:#fff;font-weight:700;font-size:15px;cursor:pointer;margin-bottom:8px">🔒 Esci</button>'+
+          '<button id="l81cfn" style="width:100%;padding:12px;border:1px solid #dcd6c8;border-radius:9px;background:#fff;color:#152238;font-weight:600;font-size:15px;cursor:pointer">Annulla</button>'+
+          '</div>';
+        document.body.appendChild(m);
+        document.getElementById('l81cfy').addEventListener('click', function(){ window.logout81(); });
+        document.getElementById('l81cfn').addEventListener('click', function(){ m.remove(); });
+      });
+      document.body.appendChild(b);
+    }
+    if(document.body) ins(); else document.addEventListener('DOMContentLoaded', ins);
+  }
+
+  function mostra(){ if(document.body) overlay(); else document.addEventListener('DOMContentLoaded', overlay); }
+  var s=getSess();
+  if(valida(s)){ addLogout(); return; }
+  if(s && s.refresh_token){
+    refresh(s.refresh_token).then(function(res){
+      if(res.ok && res.j.access_token){ salva(res.j); location.reload(); }
+      else { setSess(null); mostra(); }
+    }).catch(function(){ mostra(); });
+  } else { mostra(); }
+
+  window.logout81 = function(){
+    try{ window.localStorage.removeItem(LSK); }catch(e){}
+    try{ window.sessionStorage.removeItem(LSK); }catch(e){}
+    try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+    location.reload();
+  };
+})();
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>📁 Archivio 81<span style="color:var(--text2)">|</span>00</h1>
+      <div class="sub">Documenti aziendali, dipendenti, mezzi, attrezzature</div>
+    </div>
+    <div class="sp"></div>
+    <button class="bs" id="btnAggiorna">↻ Aggiorna</button>
+  </div>
+
+  <div class="tabs">
+    <div class="tab on" data-v="scadenze" id="tab-scadenze">🔔 Scadenze</div>
+    <div class="tab" data-v="archivio" id="tab-archivio">📂 Archivio</div>
+    <div class="tab" data-v="carica" id="tab-carica">⬆️ Carica</div>
+  </div>
+
+  <div id="view"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+var SB='https://xqbhujcnjvwbwzpwjujf.supabase.co';
+var ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhxYmh1amNuanZ3Ynd6cHdqdWpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MzM4ODUsImV4cCI6MjA5NzMwOTg4NX0.VstO3aII143jpPXjgKg0t3du-yc5rS9xs2hYko_2DRs';
+var BUCKET='archivio-documenti';
+var REST=SB+'/rest/v1/';
+
+// ── tassonomia (guidata, estensibile) ──────────────────────────────────────
+var CAT=[
+  {k:'azienda',      ico:'🏢', nome:'Azienda'},
+  {k:'dipendente',   ico:'👷', nome:'Dipendente'},
+  {k:'mezzo',        ico:'🚚', nome:'Mezzo'},
+  {k:'attrezzatura', ico:'🔧', nome:'Attrezzatura'}
+];
+var TIPI={
+  azienda:['DURC','Visura camerale','DVR','Iscrizione INAIL','Iscrizione INPS','Polizza assicurativa','Licenza / autorizzazione','Certificazione','Altro'],
+  dipendente:['Carta d\'identità','Permesso di soggiorno','Tessera sanitaria','Patente','Visita medica / idoneità','Attestato corso','Contratto di assunzione','Nomina','Altro'],
+  mezzo:['Libretto','Assicurazione','Revisione','Bollo','Leasing / noleggio','Telepass / DKV','Tagliando','Altro'],
+  attrezzatura:['Dichiarazione CE','Libretto d\'uso','Verifica periodica','Collaudo','Manuale','Altro']
+};
+// targhe reali (fonte 17/08 — mezziDB non è nel blob). La targa reale, MAI il label DKV.
+var MEZZI=[
+  {t:'GM972CF', d:'Iveco con sponda'},
+  {t:'CT068NE', d:'Iveco aperto'},
+  {t:'FS504WE', d:'Doblò'},
+  {t:'FX943SG', d:'Clio'},
+  {t:'GB649YN', d:'Skoda'},
+  {t:'Hinowa 14.70', d:'Piattaforma aerea (leasing)'}
+];
+
+var S={ view:'scadenze', docs:[], personale:{}, attrezzi:{}, filtro:{sem:'',cat:'',q:''}, sostituisce:null, loaded:false };
+
+// ── util ───────────────────────────────────────────────────────────────────
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/[<>&"]/g,function(c){return{'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];}); }
+function toast(m,err){ var t=$('toast'); t.textContent=m; t.className='toast show'+(err?' err':''); setTimeout(function(){t.className='toast';},2600); }
+function uuid(){ try{ return crypto.randomUUID(); }catch(e){ return 'xxxxxxxxxxxx4xxxyxxx'.replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c==='x'?r:(r&3|8);return v.toString(16);})+Date.now().toString(16); } }
+function fmtDate(iso){ if(!iso) return '—'; var p=String(iso).slice(0,10).split('-'); return p.length===3? p[2]+'/'+p[1]+'/'+p[0] : iso; }
+function todayISO(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function giorni(iso){ if(!iso) return null; var t=new Date(); t.setHours(0,0,0,0); var d=new Date(String(iso).slice(0,10)+'T00:00:00'); return Math.round((d-t)/86400000); }
+function semaforo(iso){ if(!iso) return 'senza_scadenza'; var g=giorni(iso); if(g<0) return 'scaduto'; if(g<=60) return 'in_scadenza'; return 'valido'; }
+var SEM_LBL={scaduto:'Scaduto',in_scadenza:'In scadenza',valido:'Valido',senza_scadenza:'Senza scadenza'};
+function catOf(k){ for(var i=0;i<CAT.length;i++) if(CAT[i].k===k) return CAT[i]; return {ico:'📄',nome:k}; }
+
+// ── Supabase REST ────────────────────────────────────────────────────────────
+function sbGet(path){
+  return fetch(REST+path, {headers:{apikey:ANON}}).then(function(r){
+    if(!r.ok) return r.text().then(function(t){ throw new Error(t||r.status); });
+    return r.json();
+  });
+}
+function sbPost(path, body){
+  return fetch(REST+path, {method:'POST', headers:{apikey:ANON,'Content-Type':'application/json','Prefer':'return=representation'}, body:JSON.stringify(body)}).then(function(r){
+    if(!r.ok) return r.text().then(function(t){ throw new Error(t||r.status); });
+    return r.json();
+  });
+}
+function sbPatch(path, body){
+  return fetch(REST+path, {method:'PATCH', headers:{apikey:ANON,'Content-Type':'application/json','Prefer':'return=representation'}, body:JSON.stringify(body)}).then(function(r){
+    if(!r.ok) return r.text().then(function(t){ throw new Error(t||r.status); });
+    return r.json();
+  });
+}
+// Storage
+function stUpload(path, file){
+  return fetch(SB+'/storage/v1/object/'+BUCKET+'/'+encodeURI(path), {
+    method:'POST', headers:{apikey:ANON,'Content-Type':file.type||'application/octet-stream','x-upsert':'false'}, body:file
+  }).then(function(r){ if(!r.ok) return r.text().then(function(t){ throw new Error(t||r.status); }); return r.json(); });
+}
+function stSignedUrl(path){
+  return fetch(SB+'/storage/v1/object/sign/'+BUCKET+'/'+encodeURI(path), {
+    method:'POST', headers:{apikey:ANON,'Content-Type':'application/json'}, body:JSON.stringify({expiresIn:3600})
+  }).then(function(r){ if(!r.ok) return r.text().then(function(t){ throw new Error(t||r.status); }); return r.json(); })
+    .then(function(j){ return SB+'/storage/v1'+j.signedURL; });
+}
+
+// ── entità (anagrafiche reali) ───────────────────────────────────────────────
+function loadEntita(){
+  var pP=sbGet('gestionale_dati?id=eq.unico&select=dati').then(function(rows){
+    var pers=(rows[0]&&rows[0].dati&&rows[0].dati.personale)||[];
+    S.personale={}; pers.forEach(function(p){ S.personale[p.id]=p.nome||p.id; });
+  }).catch(function(){ S.personale={}; });
+  var pA=sbGet('attrezzeria?select=id,nome,marca,modello,matricola,stato&order=nome.asc').then(function(rows){
+    S.attrezzi={}; (rows||[]).forEach(function(a){
+      if(a.stato==='dismesso'||a.stato==='dismessa') return;
+      var lbl=a.nome||('Attrezzo '+a.id); if(a.marca||a.modello) lbl+=' ('+[a.marca,a.modello].filter(Boolean).join(' ')+')';
+      S.attrezzi[a.id]=lbl;
+    });
+  }).catch(function(){ S.attrezzi={}; });
+  return Promise.all([pP,pA]);
+}
+function loadDocs(){
+  return sbGet('archivio_documenti?select=*&order=aggiornato_il.desc').then(function(rows){ S.docs=rows||[]; });
+}
+function entName(cat, rif){
+  if(cat==='azienda') return '🏢 Azienda';
+  if(cat==='dipendente') return S.personale[rif]||('Dipendente '+(rif||'?'));
+  if(cat==='mezzo'){ for(var i=0;i<MEZZI.length;i++) if(MEZZI[i].t===rif) return MEZZI[i].d+' ('+rif+')'; return rif||'Mezzo'; }
+  if(cat==='attrezzatura') return S.attrezzi[rif]||('Attrezzo '+(rif||'?'));
+  return rif||'';
+}
+
+// ── rendering ────────────────────────────────────────────────────────────────
+function docRow(d, opts){
+  opts=opts||{};
+  var sem = d.stato==='sostituito' ? 'sub' : semaforo(d.data_scadenza);
+  var badgeCls = d.stato==='sostituito' ? 'sub' : sem;
+  var badgeTxt = d.stato==='sostituito' ? 'Sostituito' : SEM_LBL[sem];
+  var g = giorni(d.data_scadenza);
+  var scadTxt = d.data_scadenza ? ('Scad. '+fmtDate(d.data_scadenza)+(d.stato!=='sostituito'&&g!=null?(g<0?' · '+(-g)+'gg fa':' · tra '+g+'gg'):'')) : 'Senza scadenza';
+  var c=catOf(d.categoria);
+  return '<div class="doc b-'+(d.stato==='sostituito'?'senza_scadenza':sem)+'">'+
+    '<div class="r1"><span class="tit">'+c.ico+' '+esc(d.tipo)+(d.titolo?(' — '+esc(d.titolo)):'')+'</span>'+
+      '<span class="badge '+badgeCls+'">'+badgeTxt+'</span></div>'+
+    '<div class="r2"><span class="ent">'+esc(entName(d.categoria,d.riferimento))+'</span>'+
+      (d.numero?'<span class="pill">n. '+esc(d.numero)+'</span>':'')+
+      (d.ente?'<span class="muted">'+esc(d.ente)+'</span>':'')+'</div>'+
+    '<div class="r2 muted">'+esc(scadTxt)+(d.data_emissione?(' · emesso '+fmtDate(d.data_emissione)):'')+'</div>'+
+    (d.note?'<div class="r2 muted">📝 '+esc(d.note)+'</div>':'')+
+    '<div class="acts">'+
+      '<button class="bs" data-apri="'+esc(d.storage_path)+'">📎 Apri file</button>'+
+      (d.stato==='valido'?'<button class="bs" data-sost="'+d.id+'">♻️ Sostituisci</button>':'')+
+      (d.stato==='valido'?'<button class="bd" data-arch="'+d.id+'">🗄 Archivia</button>':'')+
+    '</div></div>';
+}
+
+function renderScadenze(){
+  var att = S.docs.filter(function(d){ return d.stato==='valido'; });
+  var cnt={scaduto:0,in_scadenza:0,valido:0,senza_scadenza:0};
+  att.forEach(function(d){ cnt[semaforo(d.data_scadenza)]++; });
+  var order={scaduto:0,in_scadenza:1,valido:2,senza_scadenza:3};
+  var lista=att.slice().sort(function(a,b){
+    var sa=semaforo(a.data_scadenza), sb=semaforo(b.data_scadenza);
+    if(order[sa]!==order[sb]) return order[sa]-order[sb];
+    var ga=giorni(a.data_scadenza), gb=giorni(b.data_scadenza);
+    if(ga==null) return 1; if(gb==null) return -1; return ga-gb;
+  });
+  if(S.filtro.sem) lista=lista.filter(function(d){ return semaforo(d.data_scadenza)===S.filtro.sem; });
+  var kpis='<div class="kpis">'+['scaduto','in_scadenza','valido','senza_scadenza'].map(function(k){
+    return '<div class="kpi k-'+k+(S.filtro.sem===k?' on':'')+'" data-kpi="'+k+'"><div class="n">'+cnt[k]+'</div><div class="l">'+SEM_LBL[k]+'</div></div>';
+  }).join('')+'</div>';
+  var body = lista.length ? lista.map(function(d){return docRow(d);}).join('')
+    : '<div class="empty">'+(att.length? 'Nessun documento in questo stato.' : 'Nessun documento ancora. Vai su <b>⬆️ Carica</b> per aggiungerne uno.')+'</div>';
+  $('view').innerHTML = kpis + (S.filtro.sem?'<div class="banner"><span>Filtro: <b>'+SEM_LBL[S.filtro.sem]+'</b></span><button class="bs" id="clrFiltro">Togli filtro</button></div>':'') + body;
+}
+
+function renderArchivio(){
+  var f=S.filtro;
+  var lista=S.docs.filter(function(d){
+    if(f.cat && d.categoria!==f.cat) return false;
+    if(f.sem){ if(d.stato==='sostituito' && f.sem!=='sostituito') return false; if(d.stato!=='sostituito' && semaforo(d.data_scadenza)!==f.sem) return false; if(f.sem==='sostituito' && d.stato!=='sostituito') return false; }
+    if(f.q){ var q=f.q.toLowerCase(); var hay=[d.tipo,d.titolo,d.numero,d.ente,d.note,entName(d.categoria,d.riferimento)].join(' ').toLowerCase(); if(hay.indexOf(q)<0) return false; }
+    return true;
+  });
+  var catOpts='<option value="">Tutte le categorie</option>'+CAT.map(function(c){return '<option value="'+c.k+'"'+(f.cat===c.k?' selected':'')+'>'+c.ico+' '+c.nome+'</option>';}).join('');
+  var semOpts='<option value="">Ogni stato</option>'+['scaduto','in_scadenza','valido','senza_scadenza'].map(function(k){return '<option value="'+k+'"'+(f.sem===k?' selected':'')+'>'+SEM_LBL[k]+'</option>';}).join('')+'<option value="sostituito"'+(f.sem==='sostituito'?' selected':'')+'>Sostituiti</option>';
+  var filt='<div class="filters">'+
+    '<select id="fCat">'+catOpts+'</select>'+
+    '<select id="fSem">'+semOpts+'</select>'+
+    '<input id="fQ" type="search" placeholder="🔍 cerca…" value="'+esc(f.q)+'">'+
+    '</div>';
+  var body = lista.length ? lista.map(function(d){return docRow(d);}).join('')
+    : '<div class="empty">Nessun documento trovato con questi filtri.</div>';
+  $('view').innerHTML = filt + '<div class="muted" style="margin-bottom:8px">'+lista.length+' document'+(lista.length===1?'o':'i')+'</div>' + body;
+}
+
+function entitaSelect(cat, val){
+  if(cat==='azienda') return '<div class="muted" style="padding:8px 0">Documento dell\'azienda (nessuna persona/mezzo da collegare).</div>';
+  if(cat==='dipendente'){
+    var ks=Object.keys(S.personale);
+    if(!ks.length) return '<div class="muted">Nessun dipendente trovato.</div>';
+    return '<label>Dipendente</label><select id="fRif">'+ks.map(function(id){return '<option value="'+id+'"'+(val===id?' selected':'')+'>'+esc(S.personale[id])+'</option>';}).join('')+'</select>';
+  }
+  if(cat==='mezzo'){
+    return '<label>Mezzo (targa reale)</label><select id="fRif">'+MEZZI.map(function(m){return '<option value="'+m.t+'"'+(val===m.t?' selected':'')+'>'+esc(m.d+' — '+m.t)+'</option>';}).join('')+'<option value="__altro">Altra targa…</option></select>'+
+      '<input id="fRifAltro" placeholder="Targa" style="margin-top:8px;display:none">';
+  }
+  if(cat==='attrezzatura'){
+    var ka=Object.keys(S.attrezzi);
+    if(!ka.length) return '<div class="muted">Nessuna attrezzatura trovata.</div>';
+    return '<label>Attrezzatura</label><select id="fRif">'+ka.map(function(id){return '<option value="'+id+'"'+(String(val)===String(id)?' selected':'')+'>'+esc(S.attrezzi[id])+'</option>';}).join('')+'</select>';
+  }
+  return '';
+}
+function tipiSelect(cat, val){
+  var arr=TIPI[cat]||['Altro'];
+  return '<label>Tipo di documento</label><select id="fTipo">'+arr.map(function(t){return '<option'+(val===t?' selected':'')+'>'+esc(t)+'</option>';}).join('')+'</select>'+
+    '<input id="fTipoAltro" placeholder="Specifica il tipo" style="margin-top:8px;display:'+(val==='Altro'?'block':'none')+'">';
+}
+
+function renderCarica(){
+  var pre=S.sostituisce;
+  var cat=(pre&&pre.categoria)||'dipendente';
+  var banner = pre ? '<div class="banner"><span>♻️ Nuova versione di: <b>'+esc(pre.tipo)+(pre.titolo?(' — '+esc(pre.titolo)):'')+'</b></span><button class="bs" id="annullaSost">Annulla</button></div>' : '';
+  $('view').innerHTML = banner +
+   '<div class="card"><h2>⬆️ Carica un documento</h2>'+
+    '<label>Categoria</label><select id="fCat2">'+CAT.map(function(c){return '<option value="'+c.k+'"'+(cat===c.k?' selected':'')+'>'+c.ico+' '+c.nome+'</option>';}).join('')+'</select>'+
+    '<div id="entBox">'+entitaSelect(cat, pre&&pre.riferimento)+'</div>'+
+    '<div id="tipoBox">'+tipiSelect(cat, pre&&pre.tipo)+'</div>'+
+    '<label>Titolo / descrizione (facoltativo)</label><input id="fTit" value="'+esc(pre&&pre.titolo||'')+'" placeholder="es. Rinnovo 2026">'+
+    '<div class="fg">'+
+      '<div><label>N. documento (facoltativo)</label><input id="fNum" placeholder="protocollo"></div>'+
+      '<div><label>Ente / rilasciato da</label><input id="fEnte" placeholder="es. SITEC, AGM…"></div>'+
+      '<div><label>Data emissione</label><input id="fEmis" type="date"></div>'+
+      '<div><label>Data scadenza</label><input id="fScad" type="date"></div>'+
+    '</div>'+
+    '<label>Note (facoltativo)</label><textarea id="fNote" placeholder=""></textarea>'+
+    '<label>File (PDF o foto)</label><input id="fFile" type="file" accept="application/pdf,image/*" style="padding:9px">'+
+    '<div style="margin-top:14px"><button class="btn" id="btnCarica" style="width:100%">⬆️ Carica documento</button></div>'+
+    '<div class="muted" id="upMsg" style="margin-top:10px;text-align:center"></div>'+
+   '</div>';
+
+  $('fCat2').addEventListener('change', function(){
+    var c=this.value; $('entBox').innerHTML=entitaSelect(c); $('tipoBox').innerHTML=tipiSelect(c); wireDyn();
+  });
+  wireDyn();
+  if(pre){ var an=$('annullaSost'); if(an) an.addEventListener('click', function(){ S.sostituisce=null; renderCarica(); }); }
+  $('btnCarica').addEventListener('click', doUpload);
+}
+function wireDyn(){
+  var rif=$('fRif'); if(rif) rif.addEventListener('change', function(){ var a=$('fRifAltro'); if(a) a.style.display=(this.value==='__altro')?'block':'none'; });
+  var tipo=$('fTipo'); if(tipo) tipo.addEventListener('change', function(){ var a=$('fTipoAltro'); if(a) a.style.display=(this.value==='Altro')?'block':'none'; });
+}
+
+function doUpload(){
+  var cat=$('fCat2').value;
+  var rif=null;
+  if(cat!=='azienda'){
+    var r=$('fRif'); rif=r?r.value:'';
+    if(rif==='__altro'){ rif=($('fRifAltro').value||'').trim().toUpperCase(); }
+    if(!rif){ return toast('Seleziona a chi si riferisce il documento', true); }
+  }
+  var tipo=$('fTipo')?$('fTipo').value:'';
+  if(tipo==='Altro'){ tipo=($('fTipoAltro').value||'').trim(); if(!tipo){ return toast('Specifica il tipo di documento', true); } }
+  var file=$('fFile').files[0];
+  if(!file){ return toast('Scegli un file da caricare', true); }
+  if(file.size > 25*1024*1024){ return toast('File troppo grande (max 25 MB)', true); }
+
+  var btn=$('btnCarica'), msg=$('upMsg');
+  btn.disabled=true; btn.textContent='Carico…'; msg.textContent='Carico il file…';
+
+  var safe=(file.name||'documento').replace(/[^\w.\-]+/g,'_').slice(-80);
+  var path=cat+'/'+(rif||'azienda')+'/'+uuid()+'-'+safe;
+
+  stUpload(path, file).then(function(){
+    msg.textContent='Salvo la scheda…';
+    var rec={
+      categoria:cat, riferimento:rif, tipo:tipo,
+      titolo:($('fTit').value||'').trim()||null,
+      numero:($('fNum').value||'').trim()||null,
+      data_emissione:$('fEmis').value||null,
+      data_scadenza:$('fScad').value||null,
+      ente:($('fEnte').value||'').trim()||null,
+      storage_path:path,
+      note:($('fNote').value||'').trim()||null,
+      stato:'valido'
+    };
+    if(S.sostituisce) rec.sostituisce_id=S.sostituisce.id;
+    return sbPost('archivio_documenti', rec);
+  }).then(function(){
+    if(S.sostituisce){
+      return sbPatch('archivio_documenti?id=eq.'+S.sostituisce.id, {stato:'sostituito', aggiornato_il:new Date().toISOString()});
+    }
+  }).then(function(){
+    S.sostituisce=null;
+    toast('Documento caricato ✓');
+    return loadDocs();
+  }).then(function(){
+    S.view='archivio'; setTab(); render();
+  }).catch(function(e){
+    btn.disabled=false; btn.textContent='⬆️ Carica documento';
+    msg.textContent='';
+    toast('Errore nel caricamento — riprova', true);
+    console.error(e);
+  });
+}
+
+// ── azioni doc ───────────────────────────────────────────────────────────────
+function apriFile(path){
+  if(/^https?:\/\//i.test(path)){ window.open(path,'_blank'); return; }
+  toast('Apro il file…');
+  stSignedUrl(path).then(function(url){ window.open(url,'_blank'); }).catch(function(e){ toast('Impossibile aprire il file', true); console.error(e); });
+}
+function sostituisci(id){
+  var d=S.docs.filter(function(x){return x.id===id;})[0]; if(!d) return;
+  S.sostituisce=d; S.view='carica'; setTab(); render();
+}
+function archivia(id){
+  if(!confirm('Archiviare questo documento? Non comparirà più tra le scadenze attive (resta nell\'archivio, filtro "Sostituiti").')) return;
+  sbPatch('archivio_documenti?id=eq.'+id, {stato:'archiviato', aggiornato_il:new Date().toISOString()}).then(function(){
+    toast('Documento archiviato ✓'); return loadDocs();
+  }).then(render).catch(function(e){ toast('Errore', true); console.error(e); });
+}
+
+// ── router / eventi ──────────────────────────────────────────────────────────
+function setTab(){ ['scadenze','archivio','carica'].forEach(function(v){ $('tab-'+v).className='tab'+(S.view===v?' on':''); }); }
+function render(){
+  if(S.view==='scadenze') renderScadenze();
+  else if(S.view==='archivio') renderArchivio();
+  else renderCarica();
+}
+document.addEventListener('click', function(e){
+  var t=e.target.closest ? e.target.closest('[data-v],[data-apri],[data-sost],[data-arch],[data-kpi],#clrFiltro,#annullaSost]') : null;
+  if(!t) return;
+  if(t.hasAttribute('data-v')){ S.view=t.getAttribute('data-v'); S.filtro.sem=''; setTab(); render(); }
+  else if(t.hasAttribute('data-apri')) apriFile(t.getAttribute('data-apri'));
+  else if(t.hasAttribute('data-sost')) sostituisci(t.getAttribute('data-sost'));
+  else if(t.hasAttribute('data-arch')) archivia(t.getAttribute('data-arch'));
+  else if(t.hasAttribute('data-kpi')){ var k=t.getAttribute('data-kpi'); S.filtro.sem=(S.filtro.sem===k?'':k); render(); }
+  else if(t.id==='clrFiltro'){ S.filtro.sem=''; render(); }
+});
+document.addEventListener('change', function(e){
+  if(e.target.id==='fCat'){ S.filtro.cat=e.target.value; renderArchivio(); }
+  else if(e.target.id==='fSem'){ S.filtro.sem=e.target.value; renderArchivio(); }
+});
+document.addEventListener('input', function(e){ if(e.target.id==='fQ'){ S.filtro.q=e.target.value; var l=S.docs; renderArchivio(); var el=$('fQ'); if(el){ el.focus(); el.setSelectionRange(el.value.length,el.value.length);} } });
+$('btnAggiorna').addEventListener('click', function(){ boot(true); });
+
+function boot(refreshOnly){
+  $('view').innerHTML='<div class="empty">Carico…</div>';
+  Promise.all([loadEntita(), loadDocs()]).then(function(){
+    S.loaded=true; setTab(); render();
+    if(refreshOnly) toast('Aggiornato ✓');
+  }).catch(function(e){
+    $('view').innerHTML='<div class="empty">Errore nel caricamento dei dati.<br>Controlla la connessione e tocca ↻ Aggiorna.</div>';
+    console.error(e);
+  });
+}
+boot(false);
+})();
+</script>
+</body>
+</html>
